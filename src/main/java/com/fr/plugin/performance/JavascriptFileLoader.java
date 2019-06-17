@@ -3,7 +3,7 @@ package com.fr.plugin.performance;
 import com.fr.stable.fun.impl.AbstractJavaScriptFileHandler;
 
 /**
- * Created by richie on 16/4/20.
+ * Created by think on 2019/06/17.
  */
 public class JavascriptFileLoader extends AbstractJavaScriptFileHandler {
     @Override
