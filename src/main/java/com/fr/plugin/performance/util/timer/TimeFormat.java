@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * Created by yuwh on 2019/03/18
  * Description:none
+ * @author think
  */
 public class TimeFormat {
     private SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);;

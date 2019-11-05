@@ -8,11 +8,12 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 /**
  * Created by yuwh on 2019/3/19
  * Description: new GroupFeatureHandler().addField().groupBy().getResult() 获取数据集分组结果
+ * @author think
  */
+@Deprecated
 public class GroupFeatureHandler<E extends List<Map>> {
     private List<Map> origin;
     private int orginSize;
@@ -29,7 +30,7 @@ public class GroupFeatureHandler<E extends List<Map>> {
         Table = new ArrayList<>();
     }
 
-    /*注册归并字段和归并方式*/
+    /** 注册归并字段和归并方式*/
     public GroupFeatureHandler addField(String var1, BaseCluster var2){
         if(var2 == null){
             calcuFields.remove(var1);
@@ -39,7 +40,7 @@ public class GroupFeatureHandler<E extends List<Map>> {
         return this;
     }
 
-    /*注册分组字段和分组方式，并生成主键和排序*/
+    /** 注册分组字段和分组方式，并生成主键和排序*/
     public GroupFeatureHandler groupBy(Collection<String> var){
         if( orders== null || ! orders.equals(var) ) {
             orders = new ArrayList<String>(var);
@@ -49,7 +50,7 @@ public class GroupFeatureHandler<E extends List<Map>> {
         return this;
     }
 
-    /*无序的结果集*/
+    /** 无序的结果集*/
     public void getResult(HashMap target){
         StringBuffer thisIdentity;
         StringBuffer lastIdentity = new StringBuffer();

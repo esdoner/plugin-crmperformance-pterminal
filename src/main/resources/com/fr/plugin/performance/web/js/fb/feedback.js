@@ -82,22 +82,15 @@
         clickAction:function(options){
             var $target= null,
                 src= '',
-                paras= {};
-            if(options.hasOwnProperty('src')){
+                op= '';
+            if(options.hasOwnProperty('use')){
                 if(options.hasOwnProperty('target')){
                     try{
-                        target= $('#'+options['target']);
-                        src= options['src'];
+                        $target= $('#'+options['target']);
+                        src= options['use']['viewlet'];
+                        op= options['use']['op'];
                         this.$element.click(function(){
-                            paras = {
-                                sfineuser: FR.cjkEncode(FR.formulaEvaluator('$fine_username', '', true)()),
-                                sreportname: FR.cjkEncode(FR.formulaEvaluator('reportName', '', true)()),
-                                sformletname: FR.cjkEncode(FR.formulaEvaluator('formletName', '', true)()),
-                                sSessionID: FR.cjkEncode(FR.formulaEvaluator('sessionID', '', true)()),
-                                nofdball_def: 1
-                            };
-                            target.find('iframe').attr('src',src+'?'+$.param($.extend({},options.touse,paras)));
-                            target.css('display','block');
+                            $.drawBlackBoard(src, op, $target);
                         });
                     } catch(err) {
                         console.trace(err);
@@ -172,20 +165,37 @@
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
             var r = window.location.search.substr(1).match(reg);
             if (r != null) return unescape(r[2]); return null;
-         }
+         },
+        //show blackboard
+        drawBlackBoard:function(src, op, $blackBoard){
+            /**/
+            var paras = {
+                sfineuser: FR.cjkEncode(FR.formulaEvaluator('$fine_username', '', true)()),
+                sreportname: FR.cjkEncode(FR.formulaEvaluator('reportName', '', true)()),
+                sformletname: FR.cjkEncode(FR.formulaEvaluator('formletName', '', true)()),
+                sSessionID: FR.cjkEncode(FR.formulaEvaluator('sessionID', '', true)()),
+                nofdball_def: 1
+            };
+            src= FR.servletURL+ '?'+ $.param($.extend({}, {viewlet: src, op: op}, paras));
+            $blackBoard.find('iframe').attr('src', src);
+            $blackBoard.css('display', 'block');
+        },
+        //judge whether the page is wrong
+        isCorrectPage: function(){
+            return $('title').text()!= decodeURI("%E5%87%BA%E9%94%99%E9%A1%B5%E9%9D%A2") && FR;
+        }
     });
 })(jQuery);
 $(document).ready(function(){
     if($('#newdemo')[0] != undefined){
         return;
     }
-    if($.validateDevice() && $.getUrlParam('nofdball_def')!= 1){
+    if($.validateDevice() && FR && $.isCorrectPage() && $.getUrlParam('nofdball_def')!= 1){
         var ctx= '<div id="newdemo" level="1">反馈</div>' +
             '<div id="sball2" upper="newdemo" level="2" index="2">建议</div>' +
             '<div id="sball1" upper="newdemo" level="2" index="1">太慢</div>' +
-            //'<div id="sball3" upper="newdemo" level="2" index="3">建议</div>'+
             '<div id="sball3" upper="newdemo" level="2" index="3">关于</div>';
-        ctx= ctx+ '<div id="crm_fb_blackboard">'+
+        ctx= ctx+ '<div id="crm_fb_blackboard" style="display:none">'+
             '<div id="crm_fd_byebye"></div>'+
             '<div id="crm_fb_pad"><iframe src=""></iframe></div>'+
             '</div>';
@@ -194,6 +204,7 @@ $(document).ready(function(){
         } else {
             $('html').append('<body>'+ ctx+ '</body>');
         }
+
         var level1Style= {
                 'height':'32px',
                 'width':'32px',
@@ -213,7 +224,6 @@ $(document).ready(function(){
             sball1= $('#sball1').FeedbackBall(level2Style),
             sball2= $('#sball2').FeedbackBall(level2Style),
             sball3= $('#sball3').FeedbackBall(level2Style),
-            //sball4= $('#sball4').FeedbackBall(level2Style);
         timer= null;
         $('#newdemo').mouseover(function(){
             clearInterval(timer);
@@ -227,10 +237,9 @@ $(document).ready(function(){
         $('#newdemo').beDrag();
 
         var servletURL= FR.serverURL+FR.fineServletURL+'/view/report';
-        sball1.clickAction({src:servletURL,touse:{viewlet:'performance2018/fdball/fbb_1.cpt',op:'write'},target:'crm_fb_blackboard'});
-        sball2.clickAction({src:servletURL,touse:{viewlet:'performance2018/fdball/fbb_3.cpt',op:'write'},target:'crm_fb_blackboard'});
-        sball3.clickAction({src:servletURL,touse:{viewlet:'performance2018/fdball/fbb_4.cpt',op:'write'},target:'crm_fb_blackboard'});
-       // sball4.clickAction({src:servletURL,touse:{viewlet:'performance2018/fdball/fbb_4.cpt',op:'write'},target:'crm_fb_blackboard'});
+        sball1.clickAction({use:{viewlet:'performance2018/fdball/fbb_1.cpt',op:'write'},target:'crm_fb_blackboard'});
+        sball2.clickAction({use:{viewlet:'performance2018/fdball/fbb_3.cpt',op:'write'},target:'crm_fb_blackboard'});
+        sball3.clickAction({use:{viewlet:'performance2018/fdball/fbb_4.cpt',op:'write'},target:'crm_fb_blackboard'});
 
         $('#crm_fd_byebye').click(function(){
             $('#crm_fb_blackboard').css('display','none');
@@ -240,6 +249,7 @@ $(document).ready(function(){
         $('#crm_fd_byebye').on('mouseover', function(){
             $(this).css('transform', 'rotate(180deg)');
         })
+
         $('#crm_fd_byebye').on('mouseout mouseleave', function(){
             $(this).css('transform', 'rotate(0deg)');
         })

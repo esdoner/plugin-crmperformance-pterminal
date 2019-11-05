@@ -9,7 +9,9 @@ import com.fr.plugin.performance.design.table.core.PreDefinedViewTableData;
 import com.fr.plugin.performance.design.table.ui.PreDefinedViewTableDataPane;
 
 /**
- * Created by yuwh on 2019/3/13
+ * @author yuwh
+ * @version 1.0.0
+ * time:2019/3/13
  * Description:none
  */
 public class PreDefinedViewTableDataDefine extends AbstractTableDataDefineProvider implements ServerTableDataDefineProvider {
@@ -43,5 +45,5 @@ public class PreDefinedViewTableDataDefine extends AbstractTableDataDefineProvid
     public String prefixForTableData() { return Toolkit.i18nText("Plugin-Performance-P_defined_View_Table_Data_Prefix"); }
 
     @Override
-    public String iconPathForTableData() { return Toolkit.i18nText("Plugin-Performance-P_defined_View_Table_Data_icon"); }
+    public String iconPathForTableData() { return Toolkit.i18nText("/com/fr/plugin/performance/assets/PredefView.png"); }
 }

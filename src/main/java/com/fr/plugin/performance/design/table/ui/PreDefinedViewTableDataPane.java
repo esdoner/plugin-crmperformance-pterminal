@@ -54,6 +54,7 @@ public class PreDefinedViewTableDataPane extends AbstractTableDataPane<PreDefine
         var6.setPreferredSize(new Dimension(var6.getPreferredSize().width, this.classNameTextField.getPreferredSize().height));
         var5.add(var6);
         var6.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent var1) {
                 /*重要：这里要看下怎么把这个文件树换成插件内的*/
                 /*好像没办法直接用，copy修改一下*/
@@ -106,6 +107,7 @@ public class PreDefinedViewTableDataPane extends AbstractTableDataPane<PreDefine
     * @return void
     * @description: none
     */
+    @Override
     public void populateBean(PreDefinedViewTableData var1) {
         this.editorPane.populate(var1.getParameters(Calculator.createCalculator()));
         this.classNameTextField.setText(var1.getClassName());
@@ -116,6 +118,7 @@ public class PreDefinedViewTableDataPane extends AbstractTableDataPane<PreDefine
     * @return com.fr.plugin.performance.design.table.core.PreDefinedViewTableData
     * @description:
     */
+    @Override
     public PreDefinedViewTableData updateBean() {
         PreDefinedViewTableData var1 = new PreDefinedViewTableData(this.classNameTextField.getText());
         List var2 = this.editorPane.update();
@@ -129,6 +132,7 @@ public class PreDefinedViewTableDataPane extends AbstractTableDataPane<PreDefine
             this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/control/remove.png"));
         }
 
+        @Override
         public void actionPerformed(ActionEvent var1) {
             ParameterProvider var2 = (ParameterProvider) PreDefinedViewTableDataPane.this.editorPane.getTableModel().getSelectedValue();
             List var3 = PreDefinedViewTableDataPane.this.editorPane.update();
@@ -136,6 +140,7 @@ public class PreDefinedViewTableDataPane extends AbstractTableDataPane<PreDefine
             PreDefinedViewTableDataPane.this.editorPane.populate((ParameterProvider[]) var3.toArray(new ParameterProvider[var3.size()]));
         }
 
+        @Override
         public void checkEnabled() {
         }
     }
@@ -146,12 +151,14 @@ public class PreDefinedViewTableDataPane extends AbstractTableDataPane<PreDefine
             this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/buttonicon/add.png"));
         }
 
+        @Override
         public void actionPerformed(ActionEvent var1) {
             List var2 = PreDefinedViewTableDataPane.this.editorPane.update();
             var2.add(new Parameter());
             PreDefinedViewTableDataPane.this.editorPane.populate((ParameterProvider[]) var2.toArray(new ParameterProvider[var2.size()]));
         }
 
+        @Override
         public void checkEnabled() {
         }
     }

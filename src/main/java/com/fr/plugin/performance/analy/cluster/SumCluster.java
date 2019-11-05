@@ -3,7 +3,9 @@ package com.fr.plugin.performance.analy.cluster;
 /**
  * Created by yuwh on 2019/3/19
  * Description:none
+ * @author think
  */
+@Deprecated
 public final class SumCluster implements BaseCluster<Long, Object>{
     private String resultFieldName;
     private Long result= 0L;

@@ -1,11 +1,10 @@
-package com.fr.plugin.performance.analy;
+package com.fr.plugin.performance.view.health;
 
-import com.fr.data.AbstractTableData;
 import com.fr.general.data.TableDataException;
-import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.performance.util.dao.DaoFineSwift;
 import com.fr.plugin.performance.util.timer.FunCalendar;
 import com.fr.plugin.performance.util.timer.TimeFormat;
+import com.fr.plugin.performance.view.BaseTableData;
 import com.fr.stable.ParameterProvider;
 
 import java.sql.ResultSet;
@@ -14,9 +13,12 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * Created by yuwh on 2019/3/4
+ * @author yuwh
+ * @version 1.0.0
+ * time:2019/8/22
+ * Description:系统全局性能指标统计业务TableData
  */
-public class IndexView extends AbstractTableData {
+public class FullIndexTableData extends BaseTableData {
     private DaoFineSwift dao;
     private StringBuilder sqlString;
     private ResultSet resultSet= null;
@@ -27,12 +29,10 @@ public class IndexView extends AbstractTableData {
     private List<String[]> periods = new ArrayList<String[]>();
     private List<String> periodsKey = new ArrayList<String>();
 
-    private boolean inited = false;
-
     private HashMap<String, HashMap<String, String>> resultMap = new HashMap<>();
     private String[][] result;
 
-    public IndexView() { }
+    public FullIndexTableData() { unFinish();  }
 
     @Override
     public int getColumnCount() throws TableDataException {
@@ -46,18 +46,19 @@ public class IndexView extends AbstractTableData {
 
     @Override
     public int getRowCount() throws TableDataException {
-        init();
+        if (!isFinished()) { init(); }
         return result.length;
     }
 
     @Override
     public Object getValueAt(int i, int j) {
-        init();
+        if (!isFinished()) { init(); }
         return result[i][j];
     }
 
-    private void init() {
-        if (!inited) {
+    @Override
+    public void init() {
+        if (!isFinished()) {
             dao = new DaoFineSwift("swiftdb");
             dao.createCon();
             this.prepareParas();
@@ -65,7 +66,7 @@ public class IndexView extends AbstractTableData {
             this.doIndexCalculate();
             dao.closeCon();
         }
-        inited = true;
+        finish();
     }
 
     private void prepareParas() {
@@ -144,6 +145,9 @@ public class IndexView extends AbstractTableData {
         }
     }
 
+    /**
+     * TODO method over 100 lines
+     */
     private void doIndexCalculate(){
         List<String> periodsReverse = new ArrayList(periodsKey);
 
@@ -214,11 +218,11 @@ public class IndexView extends AbstractTableData {
                 }
             }
         }
-        /*结果集种类1*/
+        /** 结果集种类1 */
         if(Paras[3].equals("1")){
             doSort();
         }
-        /*结果集种类2*/
+        /** 结果集种类2 */
         if(Paras[3].equals("2")) {
             result = new String[periodsKey.size()][10];
             for (int i = 0; i < periodsKey.size(); i++) {

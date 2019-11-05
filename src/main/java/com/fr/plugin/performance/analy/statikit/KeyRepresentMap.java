@@ -3,9 +3,12 @@ package com.fr.plugin.performance.analy.statikit;
 import java.util.Map;
 
 /**
- * Created by yuwh on 2019/3/20
- * Description:仅有一个identity代言的列表
+ * @author yuwh
+ * @version 1.0.0
+ * time:2019/3/20
+ * Description:时间序列
  */
+@Deprecated
 public class KeyRepresentMap<V> implements Comparable<KeyRepresentMap>{
     private String identity;
     private V behavior;
@@ -17,12 +20,12 @@ public class KeyRepresentMap<V> implements Comparable<KeyRepresentMap>{
     }
 
     public String setKey(String var){
-        if(var != null) identity = var;
+        if(var != null) { identity = var; }
         return identity;
     }
 
     public V setValue(V var){
-        if(var != null) behavior=var;
+        if(var != null) { behavior=var; }
         return behavior;
     }
 

@@ -13,17 +13,21 @@ import com.fr.plugin.transform.FunctionRecorder;
 import com.fr.script.Calculator;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.ParameterProvider;
+import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLable;
 import com.fr.stable.xml.XMLableReader;
 
 /**
- * Created by yuwh on 2019/3/13
- * Description:none
+ * @author yuwh
+ * @version 1.0.0
+ * time:2019/05/03
+ * Description: 一个ParameterTableData模型
  */
 @FunctionRecorder(localeKey="FS_PLUGIN_PreDefinedViewTableData")
 public class PreDefinedViewTableData extends AbstractParameterTableData implements XMLable {
-    private Conf<String> className = Holders.simple("");
+    private Conf<String> className = Holders.simple(StringUtils.EMPTY);
+
     private TableData  _tableData = null;
 
     public PreDefinedViewTableData() { }
@@ -34,6 +38,7 @@ public class PreDefinedViewTableData extends AbstractParameterTableData implemen
 
     public void setClassName(String var1) { this.className.set(var1); }
 
+    @Override
     public void setParameters(ParameterProvider[] var1) {
         super.setParameters(var1);
         this.createTableData().setParameters(var1);
@@ -68,33 +73,38 @@ public class PreDefinedViewTableData extends AbstractParameterTableData implemen
         return this.createTableData().createDataModel(var1);
     }
 
+    @Override
     public ParameterProvider[] getParameters(Calculator var1) {
         return this.createTableData().getParameters(var1);
     }
 
+    @Override
     public String toString() {
         return "ClassTableData[Class:" + this.getClassName() + "]";
     }
 
+    @Override
     public boolean equals(Object var1) {
         return var1 instanceof PreDefinedViewTableData && super.equals(var1) && ComparatorUtils.equals(this.className, ((PreDefinedViewTableData)var1).className);
     }
 
+    @Override
     public Object clone() throws CloneNotSupportedException {
         PreDefinedViewTableData var1 = (PreDefinedViewTableData)super.clone();
         var1.className = (Conf)this.className.clone();
         return var1;
     }
 
+    @Override
     public void readXML(XMLableReader var1) {
         super.readXML(var1);
         String var2;
         if (var1.isChildNode() && var1.getTagName().equals("PreDefinedViewTableDataAttr") && (var2 = var1.getAttrAsString("className", (String)null)) != null) {
             this.setClassName(var2);
         }
-
     }
 
+    @Override
     public void writeXML(XMLPrintWriter var1) {
         super.writeXML(var1);
         var1.startTAG("PreDefinedViewTableDataAttr").attr("className", this.getClassName()).end();

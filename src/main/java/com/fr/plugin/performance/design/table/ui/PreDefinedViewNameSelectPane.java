@@ -37,6 +37,7 @@ public class PreDefinedViewNameSelectPane extends BasicPane {
         this.add(new JScrollPane(this.classFileTree), "Center");
     }
 
+    @Override
     protected String title4PopupWindow() {
         return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Function_Function_Class_Name");
     }
@@ -49,6 +50,7 @@ public class PreDefinedViewNameSelectPane extends BasicPane {
         return this.classFileTree.getSelectedClassPath();
     }
 
+    @Override
     public void checkValid() throws Exception {
         String var1 = this.classFileTree.getSelectedClassPath();
         if (var1 == null) {

@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <plugin>
-    <id>com.fr.plugin.crmperformance.pterminal</id>
+    <id>com.fr.plugin.wechat2e.performance.pterminal</id>
     <name><![CDATA[CRM性能P端]]></name>
     <active>yes</active>
-    <version>1.0</version>
+    <version>1.0.5</version>
     <env-version>10.0</env-version>
     <jartime>2019-01-01</jartime>
     <vendor>crm.yuwh</vendor>
-    <description><![CDATA[生产环境用性能插件]]></description>
+    <description><![CDATA[生产环境用性能主题插件]]></description>
     <change-notes>
-        <![CDATA[[2019-03-11]初始化]]>
-        <![CDATA[[2019-05-05]修复指标视图的报错，修改数据集名称]]>
-        <![CDATA[[2019-05-30]加入用户反馈球功能]]>
+        <![CDATA[[2019-03-11]性能指标-初始化]]>
+        <![CDATA[[2019-05-05]性能指标-修复指标视图的报错，修改数据集名称]]>
+        <![CDATA[[2019-05-30]增强功能-加入用户反馈球功能]]>
+        <![CDATA[[2019-07-15]增强功能-让黑板功能能在反馈球外使用]]>
+        <![CDATA[[2019-09-03]性能指标-二位时间序列找峰值区间功能]]>
+        <![CDATA[[2019-09-06]增强功能-添加平台配置页面]]>
     </change-notes>
     <extra-core>
-        <LocaleFinder class="com.fr.plugin.performance.PerformanceLocaleFinder"/>
+        <LocaleFinder class="com.fr.plugin.performance.locale.PerformanceLocaleFinder"/>
+        <LocaleFinder class="com.fr.plugin.performance.locale.ManageLocaleFinder"/>
         <JavaScriptFileHandler class="com.fr.plugin.performance.JavascriptFileLoader"/>
         <CssFileHandler class="com.fr.plugin.performance.CssFileLoader"/>
     </extra-core>
@@ -22,5 +26,10 @@
         <TableDataDefineProvider class="com.fr.plugin.performance.design.table.PreDefinedViewTableDataDefine"/>
         <ServerTableDataDefineProvider class="com.fr.plugin.performance.design.table.PreDefinedViewTableDataDefine"/>
     </extra-designer>
+    <extra-decision>
+        <SystemOptionProvider class="com.fr.plugin.performance.decision.manage.MainOptionBridge"/>
+        <SystemOptionProvider class="com.fr.plugin.performance.decision.manage.perf.PerformanceOptionBridge"/>
+        <SystemOptionProvider class="com.fr.plugin.performance.decision.manage.fb.FeedbackOptionBridge"/>
+    </extra-decision>
     <function-recorder class="com.fr.plugin.performance.design.table.core.PreDefinedViewTableData"/>
 </plugin>
